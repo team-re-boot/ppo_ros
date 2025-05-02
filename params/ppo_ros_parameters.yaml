@@ -1,0 +1,11 @@
+ppo_ros:
+  model:
+    type: string
+    default_value: models/go2_walking/actor.pt
+    description: Path to the model file.
+    read_only: true
+  model_package:
+    type: string
+    default_value: ppo_ros
+    description: Name of the package containing the model.
+    read_only: true
