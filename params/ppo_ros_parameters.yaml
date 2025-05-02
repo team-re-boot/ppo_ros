@@ -9,3 +9,7 @@ ppo_ros:
     default_value: ppo_ros
     description: Name of the package containing the model.
     read_only: true
+  # TODO, set std parameter from pickle
+  std:
+    type: double_array
+    description: Standard deviation of the action noise. Size of the array should match the action space size.
