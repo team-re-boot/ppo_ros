@@ -29,3 +29,6 @@ PPOComponent::PPOComponent(const rclcpp::NodeOptions & options)
     [this](const torch::Tensor & msg) { const auto action = actor.forward({msg}).toTensor(); });
 }
 }  // namespace ppo_ros
+
+#include <rclcpp_components/register_node_macro.hpp>
+RCLCPP_COMPONENTS_REGISTER_NODE(ppo_ros::PPOComponent)

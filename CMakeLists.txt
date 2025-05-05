@@ -13,12 +13,13 @@ generate_parameter_library(
   params/${PROJECT_NAME}_parameters.yaml # path to input yaml file
 )
 
-ament_auto_add_library(${PROJECT_NAME}
+ament_auto_add_library(${PROJECT_NAME} SHARED
   src/${PROJECT_NAME}_component.cpp
 )
 target_link_libraries(${PROJECT_NAME}
   ${PROJECT_NAME}_parameters
 )
+rclcpp_components_register_nodes(${PROJECT_NAME} "ppo_ros::PPOComponent")
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -28,6 +29,7 @@ endif()
 install(DIRECTORY
   models
   params
+  launch
   DESTINATION share/${PROJECT_NAME}/
 )
 

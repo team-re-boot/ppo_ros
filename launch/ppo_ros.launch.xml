@@ -1,0 +1,12 @@
+<launch>
+    <arg name="use_sim_time" default="false"/>
+
+    <executable cmd="ros2 run zenoh_bridge_dds zenoh_bridge_dds" output="screen">        
+    </executable>
+
+    <node_container pkg="torch_util" exec="component_container_mt" name="ppo_container" namespace="control" args="">
+        <!-- PPO -->
+        <composable_node pkg="ppo_ros" plugin="protolink_drivers::GpsDriverComponent" name="ppo_node" namespace="control">
+        </composable_node>
+    </node_container>
+</launch>
