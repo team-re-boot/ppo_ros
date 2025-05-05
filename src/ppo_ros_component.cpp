@@ -23,6 +23,10 @@ PPOComponent::PPOComponent(const rclcpp::NodeOptions & options)
   actor = torch::jit::load(
     ament_index_cpp::get_package_share_directory(parameters_.model_package) + "/" +
     parameters_.model);
+  RCLCPP_INFO_STREAM(
+    get_logger(), "Loading model from "
+                    << ament_index_cpp::get_package_share_directory(parameters_.model_package) +
+                         "/" + parameters_.model);
   // Create a subscription to the adapted type
   subscriber_ = this->create_subscription<AdaptedType>(
     "observation", 1,
