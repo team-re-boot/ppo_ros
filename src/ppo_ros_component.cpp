@@ -24,29 +24,8 @@ PPOComponent::PPOComponent(const rclcpp::NodeOptions & options)
     ament_index_cpp::get_package_share_directory(parameters_.model_package) + "/" +
     parameters_.model);
   // Create a subscription to the adapted type
-  subscriber_ =
-    this->create_subscription<AdaptedType>("observation", 1, [this](const torch::Tensor & msg) {
-      /// @sa https://github.com/leggedrobotics/rsl_rl/blob/d38a378b13a60ea570923754184f84f48979ad74/rsl_rl/modules/actor_critic.py#L109C9-L109C13
-      const auto mean = actor.forward({msg}).toTensor();
-      /// @sa https://github.com/leggedrobotics/rsl_rl/blob/d38a378b13a60ea570923754184f84f48979ad74/rsl_rl/modules/actor_critic.py#L111-L112
-      const auto std = torch::tensor(parameters_.std, torch::TensorOptions().dtype(torch::kFloat32))
-                         .expand({mean.size(0), mean.size(1)});
-
-      const auto sample = [](const double mean_val, const double stddev_val) {
-        auto rand1 = torch::rand({1});
-        auto rand2 = torch::rand({1});
-        double z0 = std::sqrt(-2.0 * std::log(rand1.item<double>())) *
-                    std::cos(2.0 * M_PI * rand2.item<double>());
-        return mean_val + stddev_val * z0;
-      };
-
-      auto mean_accessor = mean.accessor<float, 2>();
-      auto std_accessor = std.accessor<float, 2>();
-      for (int i = 0; i < mean_accessor.size(0); ++i) {
-        for (int j = 0; j < mean_accessor.size(1); ++j) {
-          sample(mean_accessor[i][j], std_accessor[i][j]);
-        }
-      }
-    });
+  subscriber_ = this->create_subscription<AdaptedType>(
+    "observation", 1,
+    [this](const torch::Tensor & msg) { const auto action = actor.forward({msg}).toTensor(); });
 }
 }  // namespace ppo_ros
