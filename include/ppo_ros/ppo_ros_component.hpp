@@ -36,7 +36,8 @@ public:
   ~PPOComponent() override {}
 
 private:
-  std::shared_ptr<rclcpp::Subscription<AdaptedType>> subscriber_;
+  std::shared_ptr<rclcpp::Subscription<AdaptedType>> observation_subscriber_;
+  std::shared_ptr<rclcpp::Publisher<AdaptedType>> action_publisher_;
   const ppo_ros::Params parameters_;
   torch::jit::script::Module actor;
 };

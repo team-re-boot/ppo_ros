@@ -9,3 +9,8 @@ ppo_ros:
     default_value: ppo_ros
     description: Name of the package containing the model.
     read_only: true
+  use_cuda:
+    type: bool
+    default_value: false
+    description: Use CUDA for inference.
+    read_only: true
