@@ -20,6 +20,7 @@ target_link_libraries(${PROJECT_NAME}
   ${PROJECT_NAME}_parameters
 )
 rclcpp_components_register_nodes(${PROJECT_NAME} "ppo_ros::PPOComponent")
+target_link_options(${PROJECT_NAME} PRIVATE "-Wl,--no-as-needed")
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
