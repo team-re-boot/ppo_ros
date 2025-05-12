@@ -12,6 +12,6 @@
         </composable_node>
     </node_container>
 
-    <!-- <executable cmd="zenoh-bridge-ros2dds" output="screen">        
-    </executable> -->
+    <executable cmd="zenoh-bridge-ros2dds" output="screen">        
+    </executable>
 </launch>

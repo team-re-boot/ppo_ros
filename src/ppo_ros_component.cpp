@@ -24,19 +24,25 @@ PPOComponent::PPOComponent(const rclcpp::NodeOptions & options)
     get_logger(), "Loading model from "
                     << ament_index_cpp::get_package_share_directory(parameters_.model_package) +
                          "/" + parameters_.model);
+  if (torch::cuda::is_available()) {
+    RCLCPP_INFO_STREAM(get_logger(), "CUDA is available");
+  } else {
+    RCLCPP_INFO_STREAM(get_logger(), "CUDA is not available");
+  }
+  RCLCPP_INFO_STREAM(get_logger(), "Using device: " << (parameters_.use_cuda ? "CUDA" : "CPU"));
   actor = torch::jit::load(
     ament_index_cpp::get_package_share_directory(parameters_.model_package) + "/" +
     parameters_.model);
-  if(parameters_.use_cuda) {
+  if (parameters_.use_cuda) {
     actor.to(torch::kCUDA);
   } else {
     actor.to(torch::kCPU);
   }
-  // action_publisher_ = this->create_publisher<AdaptedType>("action", 1);
-  // observation_subscriber_ =
-  //   this->create_subscription<AdaptedType>("observation", 1, [this](const torch::Tensor & msg) {
-  //     action_publisher_->publish(actor.forward({msg}).toTensor());
-  //   });
+  action_publisher_ = this->create_publisher<AdaptedType>("action", 1);
+  observation_subscriber_ =
+    this->create_subscription<AdaptedType>("observation", 1, [this](const torch::Tensor & msg) {
+      action_publisher_->publish(actor.forward({msg}).toTensor());
+    });
 }
 }  // namespace ppo_ros
 
