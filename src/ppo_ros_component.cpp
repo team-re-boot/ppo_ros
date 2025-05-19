@@ -39,13 +39,9 @@ PPOComponent::PPOComponent(const rclcpp::NodeOptions & options)
     actor.to(torch::kCPU);
   }
   action_publisher_ = this->create_publisher<AdaptedType>("action", 1);
-  // actor.forward({torch::zeros({1, 45}).to(torch::kCUDA)}).toTensor();
   observation_subscriber_ =
     this->create_subscription<AdaptedType>("observation", 1, [this](const torch::Tensor & msg) {
-      RCLCPP_INFO_STREAM(get_logger(), "Received observation: " << msg);
-      auto output = actor.forward({msg}).toTensor();
-      RCLCPP_INFO_STREAM(get_logger(), "Output: " << output);
-      action_publisher_->publish(output);
+      action_publisher_->publish(actor.forward({msg}).toTensor());
     });
 }
 }  // namespace ppo_ros
