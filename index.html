@@ -17,7 +17,7 @@
         <link rel="next" href="tutorial/setup/">
       
       
-      <link rel="icon" href="images/favicon.png">
+      <link rel="icon" href="images/icon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
     
     
@@ -291,6 +291,19 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="." class="md-nav__link md-nav__link--active">
         
   
@@ -302,6 +315,67 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architecture
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simulator-hardware-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      Simulator / Hardware interface
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Simulator / Hardware interface">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interface-with-genesis-simulator" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interface with Genesis simulator
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interface-with-real-robot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interface with Real robot
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -420,8 +494,27 @@
 
 
 <h1 id="ppo_ros">ppo_ros</h1>
-<p>ROS 2 package for Proximal Policy Optimization.</p>
-<p><a href="https://www.youtube.com/watch?v=cZdMWFHC0Es"><img alt="" src="https://img.youtube.com/vi/cZdMWFHC0Es/0.jpg" /></a></p>
+<p>ROS 2 package for legged robot control!</p>
+<p><img alt="ppo_ros" src="images/icon.png" title="Icon" /></p>
+<p>Let's control your robot with proximal policy optimization!</p>
+<h2 id="architecture">Architecture</h2>
+<p><img alt="Architecture" src="images/architecture.png" title="architecture" /></p>
+<p>This package support <a href="https://arxiv.org/pdf/1707.06347">proximal policy optimization.</a></p>
+<p>Proximal policy optimization is one of a Actor-Critic algorithms, this node is the result of exporting the Actor network in torchscript format and integrating it with ROS 2.</p>
+<p>ppo_ros node subscribe <code>control/state</code> topic and publish <code>control/action</code> topic.</p>
+<h2 id="simulator-hardware-interface">Simulator / Hardware interface</h2>
+<p>Interface is very simple.<br />
+Interface is ROS 2 topic.</p>
+<h3 id="interface-with-genesis-simulator">Interface with Genesis simulator</h3>
+<p><img alt="With Genesis" src="images/with_genesis.png" title="with genesis" /></p>
+<p>Genesis and ppo_ros package communicate with ROS 2 topic over zenoh protocol.  </p>
+<p>Genesis and genesis_ros library is completely independent from ROS 2, so we can speed up learning inside genesis.</p>
+<h3 id="interface-with-real-robot">Interface with Real robot</h3>
+<p><img alt="With Robot" src="images/with_robot.png" title="with robot" /></p>
+<p>If you want to use real robot, it's simple make a ROS 2 node that publish <code>control/state</code> and <code>control/action</code> topic wiht <code>torch_msgs/msg/Float32Tensor</code> type.</p>
+<p>ppo_ros use <a href="https://developer.nvidia.com/blog/improve-perception-performance-for-ros-2-applications-with-nvidia-isaac-transport-for-ros/">type adaptation feature in ROS 2.</a></p>
+<p><img alt="Type adaptation" src="https://developer-blogs.nvidia.com/ja-jp/wp-content/uploads/sites/6/2022/06/image5-1.gif" title="Type adaptation" /></p>
+<p>So, if you use GPU, you do not need to re-allocate tensor if you make Robot hardware driver node.</p>
 
 
 
