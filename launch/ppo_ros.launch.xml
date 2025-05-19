@@ -2,6 +2,7 @@
 <launch>
     <arg name="use_sim_time" default="false"/>
     <arg name="use_cuda" default="false"/>
+    <arg name="simulation" default="true"/>
 
     <node_container pkg="torch_util" exec="component_container" name="ppo_container" namespace="control" args="">
         <!-- PPO -->
@@ -12,6 +13,8 @@
         </composable_node>
     </node_container>
 
-    <executable cmd="zenoh-bridge-ros2dds" output="screen">        
-    </executable>
+    <group if="$(var simulation)">
+        <executable cmd="zenoh-bridge-ros2dds" output="screen">        
+        </executable>
+    </group>
 </launch>
