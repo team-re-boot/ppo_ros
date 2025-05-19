@@ -63,3 +63,7 @@ vcs import . < ppo_ros/dependency.repos
 cd ../
 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
 ```
+
+### Install genesis_ros
+
+Please refer genesis_ros documentation.
