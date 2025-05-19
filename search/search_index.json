@@ -1,0 +1,1 @@
+{"config":{"lang":["en"],"separator":"[\\s\\-]+","pipeline":["stopWordFilter"]},"docs":[{"location":"","title":"ppo_ros","text":"<p>ROS 2 package for Proximal Policy Optimization.</p> <p></p>"},{"location":"tutorial/go2_walk/","title":"GO2 walk","text":""}]}
