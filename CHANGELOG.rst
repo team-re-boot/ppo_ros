@@ -2,8 +2,8 @@
 Changelog for package ppo_ros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.1 (2025-05-21)
+------------------
 * update package.xml
 * add document
 * add document
