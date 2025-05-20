@@ -3,7 +3,7 @@
 <package format="3">
   <name>ppo_ros</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
+  <description>ROS 2 library for proximal policy optimization</description>
   <maintainer email="ms.kataoka@gmail.com">masaya</maintainer>
   <license>Apache-2.0</license>
 
